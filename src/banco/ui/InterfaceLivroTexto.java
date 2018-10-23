@@ -2,60 +2,60 @@ package banco.ui;
 
 import java.util.List;
 
-import banco.dao.ClienteDao;
-import banco.dao.ContaDao;
-import banco.modelo.Cliente;
-import banco.modelo.Conta;
+import banco.dao.AutorDao;
+import banco.dao.LivroDao;
+import banco.modelo.Autor;
+import banco.modelo.Livro;
 
-public class InterfaceContaTexto extends InterfaceModeloTexto {
+public class InterfaceLivroTexto extends InterfaceModeloTexto {
 
-	private ContaDao dao;
-	private ClienteDao clienteDao;
+	private LivroDao dao;
+	private AutorDao autorDao;
 	
-	public InterfaceContaTexto() {
+	public InterfaceLivroTexto() {
 		super();
-		dao = new ContaDao();
-		clienteDao = new ClienteDao();
+		dao = new LivroDao();
+		autorDao = new AutorDao();
 	}
 	
 	@Override
 	public void adicionar() {
-		System.out.println("Adicionar conta");
+		System.out.println("Adicionar livro");
 		System.out.println();
 		
-		Conta novaConta = obtemDadosConta(null);	
-		dao.insert(novaConta);
+		Livro novaLivro = obtemDadosLivro(null);	
+		dao.insert(novaLivro);
 	}
 
-	private Conta obtemDadosConta(Conta conta) {
-		System.out.print("Insira o nÃºmero da conta: ");
-		int numero = entrada.nextInt();
+	private Livro obtemDadosLivro(Livro livro) {
+		System.out.print("Insira o título do livro: ");
+		String titulo = entrada.nextLine();
 		
-		System.out.print("Insira o nÃºmero da agÃªncia: ");
-		int agencia = entrada.nextInt();
+		System.out.print("Insira o ano de publicação do livro: ");
+		int anoPublicacao = entrada.nextInt();
 		
-		System.out.print("Insira o saldo: ");
-		double saldo = entrada.nextDouble();
+		System.out.print("Insira a editora do livro: ");
+		String editora = entrada.nextLine();
 		
-		System.out.print("Insira o ID do cliente: ");
-		int idCliente = entrada.nextInt();
+		System.out.print("Insira o ID do autor: ");
+		int idAutor = entrada.nextInt();
 		
-		Cliente cliente = clienteDao.getByKey(idCliente);
+		Autor autor = autorDao.getByKey(idAutor);
 		
-		return new Conta(0, agencia, numero, cliente, saldo);
+		return new Livro(0, titulo, anoPublicacao, editora, autor);
 	}
 
 	@Override
 	public void listarTodos() {
-		List<Conta> contas = dao.getAll();
+		List<Livro> livros = dao.getAll();
 		
-		System.out.println("Lista de contas");
+		System.out.println("Lista de livros");
 		System.out.println();
 		
-		System.out.println("id\tAgÃªncia\tNÃºmero\tSaldo\tID do Cliente\tNome do Cliente");
+		System.out.println("id\tTitulo\tAno de Publicação\tEditora\tID do Autor\tNome do Autor");
 		
-		for (Conta conta : contas) {
-			imprimeItem(conta);
+		for (Livro livro : livros) {
+			imprimeItem(livro);
 		}
 	}
 
@@ -63,30 +63,30 @@ public class InterfaceContaTexto extends InterfaceModeloTexto {
 	public void editar() {
 		listarTodos();
 		
-		System.out.println("Editar conta");
+		System.out.println("Editar livro");
 		System.out.println();
 		
-		System.out.print("Entre o id da conta: ");
+		System.out.print("Entre o id do livro: ");
 		int id = entrada.nextInt();
 		entrada.nextLine();
 		
-		Conta contaAModificar = dao.getByKey(id);
+		Livro livroAModificar = dao.getByKey(id);
 		
-		Conta novaConta = obtemDadosConta(contaAModificar);
+		Livro novoLivro = obtemDadosLivro(livroAModificar);
 		
-		novaConta.setId(id);
+		novoLivro.setId(id);
 		
-		dao.update(novaConta);
+		dao.update(novoLivro);
 	}
 
 	@Override
 	public void excluir() {
 		listarTodos();
 		
-		System.out.println("Excluir conta");
+		System.out.println("Excluir livro");
 		System.out.println();
 		
-		System.out.print("Entre o id da conta: ");
+		System.out.print("Entre o id do livro: ");
 		int id = entrada.nextInt();
 		entrada.nextLine();
 		

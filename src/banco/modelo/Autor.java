@@ -1,6 +1,6 @@
 package banco.modelo;
 
-public class Autor {
+public class Autor implements Imprimivel {
 	private int id;
 	private String nome;
 	private Long cpf;
@@ -32,5 +32,19 @@ public class Autor {
 		this.cpf = cpf;
 	}
 	
-	
+	@Override
+	public String toString() {
+		return super.toString() + "\nNome: " + getNome();
+	}
+
+	@Override
+	public String imprimeEmLista() {
+		return String.format("%d\t%s\t%s", getId(), getNome(), getCpf());
+	}
+
+	@Override
+	public String[] getColunas() {
+		String[] colunas = {"id", "Nome", "CPF"};
+		return colunas;
+	}
 }

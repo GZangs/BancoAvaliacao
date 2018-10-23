@@ -1,18 +1,18 @@
 package banco.modelo;
 
-public class Livro {
+public class Livro implements Imprimivel {
 	private int id;
-	private String Livro;
+	private String titulo;
 	private int anoPublicacao;
 	private String editora;
 	private Autor autor;
 	
 	public Livro() { }
 	
-	public Livro(int id, String livro, int anoPublicacao, String editora, Autor autor) {
+	public Livro(int id, String titulo, int anoPublicacao, String editora, Autor autor) {
 		super();
 		this.id = id;
-		Livro = livro;
+		this.titulo = titulo;
 		this.anoPublicacao = anoPublicacao;
 		this.editora = editora;
 		this.autor = autor;
@@ -26,12 +26,12 @@ public class Livro {
 		this.id = id;
 	}
 
-	public String getLivro() {
-		return Livro;
+	public String getTitulo() {
+		return titulo;
 	}
 
-	public void setLivro(String livro) {
-		Livro = livro;
+	public void setTitulo(String livro) {
+		titulo = livro;
 	}
 
 	public int getAnoPublicacao() {
@@ -56,5 +56,25 @@ public class Livro {
 
 	public void setAutor(Autor autor) {
 		this.autor = autor;
+	}
+	
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		return "Título: " + getTitulo()		
+			+ "\nAno de Publicação: " + getAnoPublicacao()
+			+ "\nEditora: " + getEditora()
+			+ "\nAutor: " + getAutor();
+	}
+
+	@Override
+	public String imprimeEmLista() {
+		return String.format("%d\t%s\t%d\t%s\t%s\t%s", getId(), getTitulo(), getAnoPublicacao(), getEditora(), getAutor().getNome());
+	}
+
+	@Override
+	public String[] getColunas() {
+		String[] colunas = {"id", "Título", "Ano de Publicação", "Editora", "Id Autor"};
+		return colunas;
 	}
 }

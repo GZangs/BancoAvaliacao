@@ -2,106 +2,91 @@ package banco.ui;
 
 import java.util.List;
 
-import banco.dao.ClienteDao;
-import banco.modelo.Cliente;
+import banco.dao.AutorDao;
+import banco.modelo.Autor;
 
-public class InterfaceClienteTexto extends InterfaceModeloTexto {
-	
-	private ClienteDao dao;
-	
-	public InterfaceClienteTexto() {
+public class InterfaceAutorTexto extends InterfaceModeloTexto {
+
+	private AutorDao dao;
+
+	public InterfaceAutorTexto() {
 		super();
-		dao = new ClienteDao();
+		dao = new AutorDao();
 	}
-	
-	private Cliente obtemDadosCliente(Cliente cliente) {
-		
-		System.out.print("Insira o nome do cliente: ");
+
+	private Autor obtemDadosAutor(Autor autor) {
+
+		System.out.print("Insira o nome do autor: ");
 		String nome = entrada.nextLine();
-		
-		System.out.println("Insira o RG do cliente (somente números): ");
-		long rg = entrada.nextLong();
-		entrada.nextLine();
-		
-		System.out.println("Insira o CPF do cliente (somente números): ");
+
+		System.out.println("Insira o CPF do autor (somente números): ");
 		long cpf = entrada.nextLong();
 		entrada.nextLine();
-		
-		System.out.println("Insira o endereco do cliente: ");
-		String endereco = entrada.nextLine();
-		
-		System.out.println("Insira o telefone do cliente (somente números): ");
-		long telefone = entrada.nextLong();
-		entrada.nextLine();
-		
-		System.out.println("Insira a renda mensal do cliente (XXXXX,XX): ");
-		double renda = entrada.nextDouble();
-		entrada.nextLine();
-		
-		Cliente novoCliente = new Cliente(0, nome, endereco, cpf, rg, telefone, renda);
-		
-		return novoCliente;
+
+		Autor novoAutor = new Autor(0, nome, cpf);
+
+		return novoAutor;
 	}
-	
+
 	@Override
 	public void adicionar() {
-		System.out.println("Adicionar cliente");
+		System.out.println("Adicionar autor");
 		System.out.println();
-		
-		Cliente novoCliente = obtemDadosCliente(null);	
-		dao.insert(novoCliente);
-		
+
+		Autor novoAutor = obtemDadosAutor(null);
+		dao.insert(novoAutor);
+
 	}
 
 	@Override
 	public void listarTodos() {
-		List<Cliente> clientes = dao.getAll();
-		
-		System.out.println("Lista de clientes");
+		List<Autor> autores = dao.getAll();
+
+		System.out.println("Lista de autores");
 		System.out.println();
-		
-		System.out.println("id\tNome\tEndereco\tCPF\tRG\tTelefone\tRenda Mensal");
-		
-		for (Cliente cliente : clientes) {
-			imprimeItem(cliente);
+
+		System.out.println("id\tNome\tCPF");
+
+		for (Autor autor : autores) {
+			imprimeItem(autor);
 		}
-		
+
 	}
 
 	@Override
 	public void editar() {
 		listarTodos();
-		
-		System.out.println("Editar cliente");
+
+		System.out.println("Editar autor");
 		System.out.println();
-		
-		System.out.print("Entre o id do cliente: ");
+
+		System.out.print("Entre o id do autor: ");
 		int id = entrada.nextInt();
 		entrada.nextLine();
-		
-		Cliente clienteAModifcar = dao.getByKey(id);
-		
-		Cliente novoCliente = obtemDadosCliente(clienteAModifcar);
-		
-		novoCliente.setId(id);
-		
-		dao.update(novoCliente);
-		
+
+		Autor autorAModifcar = dao.getByKey(id);
+
+		Autor novoAutor = obtemDadosAutor(autorAModifcar);
+
+		novoAutor.setId(id);
+
+		dao.update(novoAutor);
+
 	}
 
 	@Override
 	public void excluir() {
 		listarTodos();
-		
-		System.out.println("Excluir cliente");
+
+		System.out.println("Excluir autor");
 		System.out.println();
-		
-		System.out.print("Entre o id do cliente: ");
+
+		System.out.print("Entre o id do autor: ");
 		int id = entrada.nextInt();
 		entrada.nextLine();
-		
+
 		dao.delete(id);
-		
+
 	}
 
 }

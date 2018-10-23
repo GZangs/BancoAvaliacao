@@ -9,8 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import banco.modelo.Autor;
-import banco.modelo.Cliente;
-import banco.modelo.Conta;
 import banco.modelo.Livro;
 
 public class LivroDao implements Dao<Livro> {
@@ -135,5 +133,65 @@ public class LivroDao implements Dao<Livro> {
 			close(conn, stmt, rs);
 		}
 
+	}
+	
+	@Override
+	public void delete(int id) {
+		Connection conn = DbConnection.getConnection();
+		
+		PreparedStatement stmt = null;
+		
+		try {
+			stmt = conn.prepareStatement(DELETE);
+			
+			stmt.setInt(1, id);
+			
+			stmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(conn, stmt, null);
+		}
+	}
+	
+	@Override
+	public void update(Livro livro) {
+		Connection conn = DbConnection.getConnection();
+		
+		PreparedStatement stmt = null;
+		
+		try {
+			stmt = conn.prepareStatement(UPDATE);
+			stmt.setString(1, livro.getTitulo());
+			stmt.setInt(2, livro.getAnoPublicacao());
+			stmt.setString(1, livro.getEditora());
+			stmt.setInt(2, livro.getAutor().getId());
+			
+			stmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close (conn, stmt, null);
+		}
+	}
+	
+	private static void close(Connection myConn, Statement myStmt, ResultSet myRs) {
+		try {
+			if (myRs != null) {
+				myRs.close();
+			}
+			
+			if (myStmt != null) {
+				myStmt.close();
+			}
+			
+			if (myConn != null) {
+				myConn.close();
+			}
+		} catch (SQLException e) {
+			throw new RuntimeException("Erro ao fechar recursos.", e);
+		}
+		
 	}
 }
