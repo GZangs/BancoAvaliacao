@@ -69,12 +69,13 @@ public class Livro implements Imprimivel {
 
 	@Override
 	public String imprimeEmLista() {
-		return String.format("%d\t%s\t%d\t%s\t%s\t%s", getId(), getTitulo(), getAnoPublicacao(), getEditora(), getAutor().getNome());
+		// id\tTitulo\tAno de Publicação\tEditora\tID do Autor\tNome do Autor
+		return String.format("%d\t%s\t%d\t%s\t%d\t%s", getId(), getTitulo(), getAnoPublicacao(), getEditora(), getAutor().getId(), getAutor().getNome());
 	}
 
 	@Override
 	public String[] getColunas() {
-		String[] colunas = {"id", "Título", "Ano de Publicação", "Editora", "Id Autor"};
+		String[] colunas = {"id", "Título", "Ano de Publicação", "Editora", "Id Autor", "Nome Autor"};
 		return colunas;
 	}
 }

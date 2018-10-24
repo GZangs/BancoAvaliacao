@@ -33,12 +33,14 @@ public class InterfaceLivroTexto extends InterfaceModeloTexto {
 		
 		System.out.print("Insira o ano de publicação do livro: ");
 		int anoPublicacao = entrada.nextInt();
+		entrada.nextLine();
 		
 		System.out.print("Insira a editora do livro: ");
 		String editora = entrada.nextLine();
 		
 		System.out.print("Insira o ID do autor: ");
 		int idAutor = entrada.nextInt();
+		entrada.nextLine();
 		
 		Autor autor = autorDao.getByKey(idAutor);
 		

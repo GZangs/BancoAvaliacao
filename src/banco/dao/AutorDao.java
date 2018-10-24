@@ -112,7 +112,7 @@ public class AutorDao implements Dao<Autor> {
 		try {
 			stmt = conn.prepareStatement(INSERT, Statement.RETURN_GENERATED_KEYS);
 			stmt.setString(1, autor.getNome());
-			stmt.setLong(3, autor.getCpf());
+			stmt.setLong(2, autor.getCpf());
 			
 			stmt.executeUpdate();
 			rs = stmt.getGeneratedKeys();
@@ -153,7 +153,8 @@ public class AutorDao implements Dao<Autor> {
 		try {
 			stmt = conn.prepareStatement(UPDATE);
 			stmt.setString(1, autor.getNome());
-			stmt.setLong(3, autor.getCpf());
+			stmt.setLong(2, autor.getCpf());
+			stmt.setInt(3, autor.getId());
 			
 			stmt.executeUpdate();
 			

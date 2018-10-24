@@ -12,11 +12,11 @@ import banco.modelo.Autor;
 import banco.modelo.Livro;
 
 public class LivroDao implements Dao<Livro> {
-	private static final String GET_BY_ID = "SELECT * FROM livro NATURAL JOIN autor WHERE id = ?";
-	private static final String GET_ALL = "SELECT * FROM livro NATURAL JOIN autor";
+	private static final String GET_BY_ID = "SELECT * FROM livro JOIN autor ON livro.autor_id = autor.id WHERE id = ?";
+	private static final String GET_ALL = "SELECT * FROM livro JOIN autor ON livro.autor_id = autor.id";
 	private static final String INSERT = "INSERT INTO livro (titulo, ano_publicacao, editora, autor_id) "
 			+ "VALUES (?, ?, ?, ?)";
-	private static final String UPDATE = "UPDATE livro SET titulo = ?, ano_publicacao = ?, editora = ?, cliente_id = ? WHERE id = ?";
+	private static final String UPDATE = "UPDATE livro SET titulo = ?, ano_publicacao = ?, editora = ?, autor_id = ? WHERE id = ?";
 	private static final String DELETE = "DELETE FROM livro WHERE id = ?";
 	
 	public LivroDao() {
@@ -49,7 +49,7 @@ public class LivroDao implements Dao<Livro> {
 			
 		livro.setId( rs.getInt("id") );
 		livro.setTitulo(rs.getString("titulo"));
-		livro.setAnoPublicacao(rs.getInt("numero"));
+		livro.setAnoPublicacao(rs.getInt("ano_publicacao"));
 		livro.setEditora(rs.getString("editora"));
 		livro.setAutor( new Autor(rs.getInt("autor_id"), rs.getString("nome"), 
 				rs.getLong("cpf")) );
@@ -118,8 +118,8 @@ public class LivroDao implements Dao<Livro> {
 			stmt = conn.prepareStatement(INSERT, Statement.RETURN_GENERATED_KEYS);
 			stmt.setString(1, livro.getTitulo());
 			stmt.setInt(2, livro.getAnoPublicacao());
-			stmt.setString(1, livro.getEditora());
-			stmt.setInt(2, livro.getAutor().getId());
+			stmt.setString(3, livro.getEditora());
+			stmt.setInt(4, livro.getAutor().getId());
 			
 			stmt.executeUpdate();
 			rs = stmt.getGeneratedKeys();
@@ -164,8 +164,9 @@ public class LivroDao implements Dao<Livro> {
 			stmt = conn.prepareStatement(UPDATE);
 			stmt.setString(1, livro.getTitulo());
 			stmt.setInt(2, livro.getAnoPublicacao());
-			stmt.setString(1, livro.getEditora());
-			stmt.setInt(2, livro.getAutor().getId());
+			stmt.setString(3, livro.getEditora());
+			stmt.setInt(4, livro.getAutor().getId());
+			stmt.setInt(4, livro.getId());
 			
 			stmt.executeUpdate();
 			
